@@ -1,0 +1,111 @@
+package correctcash;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class CorrectCashGUI extends JFrame {
+
+    private JTextField amountField;
+    private JTextArea resultArea;
+
+    public CorrectCashGUI() {
+        // Window setup
+        setTitle("Correct Change Calculator");
+        setSize(400, 350);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null); // Center window
+        setLayout(new BorderLayout(10, 10));
+
+        // Top Panel: Input area
+        JPanel inputPanel = new JPanel(new FlowLayout());
+        inputPanel.add(new JLabel("Enter Change Amount: $"));
+        amountField = new JTextField(10);
+        inputPanel.add(amountField);
+
+        JButton calculateButton = new JButton("Calculate Change");
+        inputPanel.add(calculateButton);
+
+        add(inputPanel, BorderLayout.NORTH);
+
+        // Center Panel: Output display
+        resultArea = new JTextArea();
+        resultArea.setEditable(false);
+        resultArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
+        add(new JScrollPane(resultArea), BorderLayout.CENTER);
+
+        // Event handling
+        calculateButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                calculateChange();
+            }
+        });
+    }
+
+    private void calculateChange() {
+        resultArea.setText(""); // Clear previous output
+        
+        try {
+            double amount = Double.parseDouble(amountField.getText());
+            int cents = (int) Math.round(amount * 100);
+
+            if (cents < 0) {
+                resultArea.setText("Please enter a positive amount.");
+                return;
+            }
+
+            StringBuilder output = new StringBuilder();
+
+            // Ten dollar bills
+            int tens = cents / 1000;
+            cents %= 1000;
+            if (tens > 0) output.append(tens).append(" Ten Dollar Bill(s)\n");
+
+            // Five dollar bills
+            int fives = cents / 500;
+            cents %= 500;
+            if (fives > 0) output.append(fives).append(" Five Dollar Bill(s)\n");
+
+            // One dollar bills
+            int ones = cents / 100;
+            cents %= 100;
+            if (ones > 0) output.append(ones).append(" One Dollar Bill(s)\n");
+
+            // Quarters
+            int quarters = cents / 25;
+            cents %= 25;
+            if (quarters > 0) output.append(quarters).append(" Quarter(s)\n");
+
+            // Dimes
+            int dimes = cents / 10;
+            cents %= 10;
+            if (dimes > 0) output.append(dimes).append(" Dime(s)\n");
+
+            // Nickels
+            int nickels = cents / 5;
+            cents %= 5;
+            if (nickels > 0) output.append(nickels).append(" Nickel(s)\n");
+
+            // Pennies
+            int pennies = cents;
+            if (pennies > 0) output.append(pennies).append(" Penny/Pennies\n");
+
+            if (output.length() == 0) {
+                resultArea.setText("$0.00 - No change required.");
+            } else {
+                resultArea.setText(output.toString());
+            }
+
+        } catch (NumberFormatException ex) {
+            resultArea.setText("Error: Please enter a valid numerical dollar amount.");
+        }
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            new CorrectCashGUI().setVisible(true);
+        });
+    }
+}
