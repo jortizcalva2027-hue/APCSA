@@ -4,7 +4,7 @@ import java.util.Random;
 import java.util.Scanner;
 /**
  *
- * @author jleonhardt2027
+ * @author jortizcalva2027
  */
 public class Main {
 
