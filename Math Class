@@ -1,0 +1,81 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
+ */package mathassignment;
+
+/**
+ *
+ * @author jortizcalva2027
+ */
+import java.util.Scanner;
+import java.util.Random;
+
+public class MathAssignment {
+
+    public static double roundAvoid(double value, int places) {
+        double scale = Math.pow(10, places);
+        return Math.round(value * scale) / scale;
+    }
+
+    public static void main(String[] args) {
+        Random generator = new Random();
+        Scanner scanner = new Scanner(System.in);
+        int a = generator.nextInt(91);
+        double sina, cosb, tanc;
+
+        // Math statements
+        sina = Math.sin(Math.toRadians(a));
+        cosb = Math.cos(Math.toRadians(a));
+        tanc = Math.tan(Math.toRadians(a)); 
+        System.out.println("Random Number (a) :" + a);
+        System.out.println("Sin(a): " + roundAvoid(sina, 3));
+        System.out.println("Cos(a): " + roundAvoid(cosb, 3));
+        System.out.println("Tan(a): " + roundAvoid(tanc, 3));
+
+    
+        double radius = 1.0 + (generator.nextDouble() * 19.0);
+        double Area = Math.PI * Math.pow(radius, 2);
+        double Volume = (4.0 / 3.0) * Math.PI * Math.pow(radius, 3);
+
+        System.out.println("\nRandom Radius: " + roundAvoid(radius, 3));
+        System.out.println("Circle Area: " + roundAvoid(Area, 3));
+        System.out.println("Sphere Volume: " + roundAvoid(Volume, 3));
+
+        
+        double z = 100000000.0 + (generator.nextDouble() * (100000000000.0 - 100000000.0));
+        double sqrtZ = Math.sqrt(z);
+        double lnZ = Math.log(z); 
+        double logTenZ = Math.log10(z);
+
+        System.out.println("\nRandom Number (z): " + roundAvoid(z, 5));
+        System.out.println("Square Root of z: " + roundAvoid(sqrtZ, 5));
+        System.out.println("Natural Log (ln) of z: " + roundAvoid(lnZ, 5));
+        System.out.println("Base-10 Log of z: " + roundAvoid(logTenZ, 5));
+        
+        double C = 299792458.0; 
+        double massInKg = z / Math.pow(C, 2);
+        double massInGrams = massInKg * 1000.0;
+        System.out.print("\nEnter number of decimal places for Mass output: ");
+        int decimalPlaces = scanner.nextInt();
+        System.out.println("Mass required (grams): " + roundAvoid(massInGrams, decimalPlaces));
+        Scanner input = new Scanner(System.in);
+        Scanner powerScanner = new Scanner(System.in);
+
+        System.out.print("\nEnter a real number base: ");
+        double base = powerScanner.nextDouble();
+
+        System.out.print("Enter an integer exponent: ");
+        int exponent = powerScanner.nextInt();
+
+        System.out.print("Enter number of decimal places for power output: ");
+        int powerDecimalPlaces = powerScanner.nextInt();
+
+        double powerResult = Math.pow(base, exponent);
+        System.out.println(base + " raised to the power of " + exponent + " is: " + roundAvoid(powerResult, powerDecimalPlaces));
+
+        
+        scanner.close();
+        powerScanner.close();
+        
+    }
+}
