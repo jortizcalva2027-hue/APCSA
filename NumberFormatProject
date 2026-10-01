@@ -1,0 +1,79 @@
+package numberformatproject;
+
+//Write code that solves the following:
+
+//1. Ask for total number of students at a school (any school). 
+//Now ask for the number of girls at that school. Using Number formatting, 
+//output the % of girls and % of boys at that school.
+
+//2.Ask for total amout of money in Dollars and Cents. 
+//The method must convert this value to British Pounds (gbp - Exchange rate on 9/26 is 0.75 pence to 1$). 
+//Output the number of Pounds, mentioning the exchange rate, in a British (locale) number format. 
+//Do the same for the Euro (86 eCents to 1$ today)
+
+//3. Ask for an integer from 0 to 15, 
+//and based on the input, format the number Pi (from the Math class) 
+//to that number of decimal places, and print it out appropriately.
+
+//4. Generate a random number from 100,000,000 to 999e18as a decimal number 
+//(no scientific notation). 
+
+//Remember to include relevant comments. Keep your indentations clear.
+
+import java.math.BigDecimal;
+import java.text.NumberFormat;
+import java.util.Locale;
+import java.util.Scanner;
+
+public class NumberFormatProject {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+      Scanner scanner = new Scanner(System.in);
+      
+     // first assingment, percentages of girls and boys
+     System.out.print("Total students: ");
+        double total = scanner.nextDouble();
+        System.out.print("Number of girls: ");
+        double girls = scanner.nextDouble();
+        
+        NumberFormat percent = NumberFormat.getPercentInstance();
+        System.out.println("Girls: " + percent.format(girls / total));
+        System.out.println("Boys:  " + percent.format((total - girls) / total));
+        
+        // second assignment, currency conversion
+        System.out.print("\nEnter USD amount: ");
+        double usd = scanner.nextDouble();
+
+        NumberFormat gbpFormat = NumberFormat.getCurrencyInstance(Locale.UK);
+        NumberFormat eurFormat = NumberFormat.getCurrencyInstance(Locale.FRANCE);
+
+        System.out.println("Exchange rate: $1 = £0.75 GBP");
+        System.out.println("Pounds: " + gbpFormat.format(usd * 0.75));
+
+        System.out.println("Exchange rate: $1 = €0.86 EUR");
+        System.out.println("Euros:  " + eurFormat.format(usd * 0.86));
+        
+        // third assingment, formatting PI
+        System.out.print("\nEnter decimals for Pi (0-15): ");
+        int decimals = scanner.nextInt();
+
+        System.out.printf("Pi: %." + decimals + "f%n", Math.PI);
+        
+        // fourth assignment, large random number
+        BigDecimal min = new BigDecimal("100000000");
+        BigDecimal max = new BigDecimal("999000000000000000000"); // 999e18
+        BigDecimal range = max.subtract(min);
+
+        BigDecimal randomVal = min.add(range.multiply(BigDecimal.valueOf(Math.random())));
+
+        System.out.println("\nRandom Number:");
+        System.out.println(randomVal.toPlainString());
+
+        scanner.close();
+    }
+    
+}
+
