@@ -1,0 +1,58 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
+ */
+package enumeratedtypeandwrapper;import java.util.Scanner;
+
+public class EnumeratedTypeAndWrapper {
+
+    // Enums defined inside the class
+    enum Day {
+        SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY
+    }
+
+    enum Month {
+        JANUARY, FEBRUARY, MARCH, APRIL, MAY, JUNE,
+        JULY, AUGUST, SEPTEMBER, OCTOBER, NOVEMBER, DECEMBER
+    }
+
+    public static void main(String[] args) {
+        // --- Part 1a: Days of the Week (1-7) ---
+        System.out.println("--- Days of the Week ---");
+        for (Day day : Day.values()) {
+            int dayNumber = day.ordinal() + 1;
+            System.out.println(dayNumber + ": " + day);
+        }
+
+        // --- Part 1b: Months of the Year (1-12) ---
+        System.out.println("\n--- Months of the Year ---");
+        for (Month month : Month.values()) {
+            int monthNumber = month.ordinal() + 1;
+            System.out.println(monthNumber + ": " + month);
+        }
+
+        // --- Part 2: Username & Graduation Year ---
+        System.out.println("\n--- Graduation Year Calculator ---");
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter your CCHS username (including 4-digit graduation year): ");
+        String username = scanner.nextLine();
+
+        // Extract the last 4 characters for the year substring
+        String yearString = username.substring(username.length() - 4);
+
+        // Parse year string to int using Integer wrapper class
+        int gradYear = Integer.parseInt(yearString);
+        int nextYear = gradYear + 1;
+
+        // Convert year to binary representation
+        String binaryYear = Integer.toBinaryString(gradYear);
+
+        // Print outputs
+        System.out.println("Graduation year: " + gradYear);
+        System.out.println("The year after graduation will be: " + nextYear);
+        System.out.println("In computer language, you graduate in: " + binaryYear);
+
+        scanner.close();
+    }
+}
