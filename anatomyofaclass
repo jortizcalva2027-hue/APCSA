@@ -1,0 +1,86 @@
+package anatomyofaclass;
+
+/*
+ * Q1: A class is a blueprint or template. An object is an instance of that class created in memory.
+ * 
+ * Q2: Java automatically calls String.valueOf(obj), which invokes obj.toString(). If not overridden, 
+ *     it defaults to ClassName@HashCode.
+ * 
+ * Q3: Method variables exist only within their method block {}. Class variables (fields) are accessible 
+ *     throughout the entire class.
+ */
+
+class Car {
+    private String carBrand;
+    private int enginePower;
+    private double maxSpeed;
+    private double price;
+
+    public Car() {
+        this.carBrand = "Generic";
+        this.enginePower = 100;
+        this.maxSpeed = 100.0;
+        this.price = 15000.0;
+    }
+
+    public Car(String carBrand, int enginePower, double maxSpeed, double price) {
+        this.carBrand = carBrand;
+        this.enginePower = enginePower;
+        this.maxSpeed = maxSpeed;
+        this.price = price;
+    }
+
+    public String getCarBrand() {
+        return carBrand;
+    }
+
+    public void setCarBrand(String carBrand) {
+        this.carBrand = carBrand;
+    }
+
+    public int getEnginePower() {
+        return enginePower;
+    }
+
+    public void setEnginePower(int enginePower) {
+        this.enginePower = enginePower;
+    }
+
+    public double getMaxSpeed() {
+        return maxSpeed;
+    }
+
+    public void setMaxSpeed(double maxSpeed) {
+        this.maxSpeed = maxSpeed;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    @Override
+    public String toString() {
+        return "Brand: " + carBrand + ", Engine Power: " + enginePower + " HP, Max Speed: " + maxSpeed + " MPH, Price: $" + price;
+    }
+}
+
+public class AnatomyOfAClass {
+    public static void main(String[] args) {
+        Car baseCar = new Car();
+        System.out.println(baseCar);
+
+        Car vwBug = new Car("VW Bug", 57, 90.0, 18000.00);
+        Car prius = new Car("Toyota Prius", 121, 112.0, 27500.00);
+        Car bmwI8 = new Car("BMW i8", 369, 155.0, 147500.00);
+        Car tesla = new Car("Tesla Model 3", 283, 140.0, 38990.00);
+
+        System.out.println(vwBug);
+        System.out.println(prius);
+        System.out.println(bmwI8);
+        System.out.println(tesla);
+    }
+}
