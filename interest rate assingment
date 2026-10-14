@@ -1,0 +1,92 @@
+package interestrateassignment;
+
+import java.util.Scanner;
+import java.text.NumberFormat;
+
+//the private classes first, including formatter, calulator, and private declarations
+class InterestRateCalculator {
+
+    // Public constant for interest rate
+    public static final double RATE = 0.035;
+
+   
+    private double loanAmount;
+    private int repaymentMonths;
+    private double monthlyPayment;
+    private double totalRepaid;
+
+ 
+    public void calculatePayments(double loanAmount, int repaymentMonths) {
+        this.loanAmount = loanAmount;
+        this.repaymentMonths = repaymentMonths;
+
+        // Base monthly principal repayment 
+        double monthlyPrincipal = this.loanAmount / this.repaymentMonths;
+
+        // Monthly interest payment on total loan
+        double monthlyInterest = (this.loanAmount * RATE) / 12;
+
+        // Total monthly payment calculator
+        this.monthlyPayment = monthlyPrincipal + monthlyInterest;
+
+        // Total amount repaid over the full term
+        this.totalRepaid = this.monthlyPayment * this.repaymentMonths;
+    }
+
+    //the currency format stuff
+
+    public String getFormattedRate() {
+        NumberFormat percentFormat = NumberFormat.getPercentInstance();
+        percentFormat.setMinimumFractionDigits(1);
+        return percentFormat.format(RATE);
+    }
+//for the loam amount, formatter
+    public String getFormattedLoanAmount() {
+        return NumberFormat.getCurrencyInstance().format(this.loanAmount);
+    }
+//monthy payment formatter
+    public String getFormattedMonthlyPayment() {
+        return NumberFormat.getCurrencyInstance().format(this.monthlyPayment);
+    }
+//amount needed to pay formatter
+    public String getFormattedTotalRepaid() {
+        return NumberFormat.getCurrencyInstance().format(this.totalRepaid);
+    }
+
+    public int getRepaymentMonths() {
+        return this.repaymentMonths;
+    }
+}
+
+//now the public class, the client side actions
+public class InterestRateAssignment {
+
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+
+        //first client side prompt
+        
+        System.out.print("Enter loan amount (e.g. 1000000): $");
+        double amountInput = input.nextDouble();
+
+        //client side month prompt
+        System.out.print("Enter number of months for repayment: ");
+        int monthsInput = input.nextInt();
+
+       
+        InterestRateCalculator calculator = new InterestRateCalculator();
+
+        //actually do the calculations
+        calculator.calculatePayments(amountInput, monthsInput);
+
+        // Print formatted results
+        System.out.println("\n--- Loan Summary ---");
+        System.out.println("Interest Rate:   " + calculator.getFormattedRate());
+        System.out.println("Loan Amount:     " + calculator.getFormattedLoanAmount());
+        System.out.println("Repayment Term:  " + calculator.getRepaymentMonths() + " months");
+        System.out.println("Monthly Payment: " + calculator.getFormattedMonthlyPayment());
+        System.out.println("Total Repaid:    " + calculator.getFormattedTotalRepaid());
+
+        input.close();
+    }
+}
