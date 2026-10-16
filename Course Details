@@ -1,0 +1,90 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
+ */
+package coursedetails;
+
+class Course {
+    private String courseTitle;
+    private String courseCode;
+    private int pointsTotal;
+    private String instructorName;
+    
+    // Full constructor
+    public Course(String title, String code, int points, String instructor) {
+        courseTitle = title;
+        courseCode = code;
+        pointsTotal = points;
+        instructorName = instructor;
+    }       
+    
+    // Title-only constructor
+    public Course(String title) {
+        courseTitle = title;
+        courseCode = "TBD";
+        pointsTotal = 0;
+        instructorName = "Unassigned";
+    }
+    
+    // Accessors (Getters)
+    public String getCourseTitle() {
+        return courseTitle;
+    }
+
+    public String getCourseCode() {
+        return courseCode;
+    }
+
+    public int getPointsTotal() {
+        return pointsTotal;
+    }
+
+    public String getInstructorName() {
+        return instructorName;
+    }
+    
+    // Mutators (Setters)
+    public void setCourseTitle(String title) {
+        courseTitle = title;
+    }
+
+    public void setCourseCode(String code) {
+        courseCode = code;
+    }
+
+    public void setPointsTotal(int points) {
+        pointsTotal = points;
+    }
+
+    public void setInstructorName(String instructor) {
+        instructorName = instructor;
+    }
+
+    public String toString() {
+        return "Course Information:\n" +
+               "  Course Name: " + courseTitle + "\n" +
+               "  Code: " + courseCode + "\n" +
+               "  Grade: " + pointsTotal + "\n" +
+               "  Instructor: " + instructorName;
+    }
+}
+
+public class CourseDetails {
+    public static void main(String[] args) {
+        Course csCourse = new Course("AP Computer Science A", "AP CS A", 97, "Mr Nelson");
+        Course mathCourse = new Course("AP Calculus BC", "APBC", 91, "Mr Dahms");        
+        Course physicsCourse = new Course("AP Physics C: Mechanics", "APC", 87, "Mrs. Rafie");
+
+        double totalPoints = (csCourse.getPointsTotal() 
+                            + mathCourse.getPointsTotal() 
+                            + physicsCourse.getPointsTotal()) / 3.0;
+
+        System.out.println(csCourse);
+        System.out.println();
+        System.out.println(mathCourse);
+        System.out.println();
+        System.out.println(physicsCourse);
+        System.out.println();
+        System.out.println("Average Grade: " + (csCourse.getPointsTotal() + mathCourse.getPointsTotal() + physicsCourse.getPointsTotal()) / 3.0);
+    }
+}
