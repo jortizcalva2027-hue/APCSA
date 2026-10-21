@@ -1,0 +1,34 @@
+package leapyears;
+
+import java.util.Scanner;
+
+public class LeapYears {
+    
+    // declaring the scanner
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+
+// first prompt
+        System.out.print("Enter a year: ");
+        int year = scan.nextInt();
+        int minYear = 1582;
+// putin the minimum at 1582, as that is when the gregorian calander began to be used.        
+if (year < minYear) {
+            System.out.println("The Gregorian calendar was not adopted until 1582. Please enter a year >= 1582.");
+        } else {
+
+            boolean isLeapYear = false;
+// the way of finding out whether the inputed year is a leap year or not
+            if ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)) {
+                isLeapYear = true;
+            }
+            if (isLeapYear) {
+                System.out.println(year + " is a leap year");
+            } else {
+                System.out.println(year + " is not a leap year.");
+            }
+        }
+
+        scan.close();
+    }
+}
