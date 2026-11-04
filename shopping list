@@ -1,0 +1,44 @@
+package shoppinglist;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class ShoppingList {
+    public static void main(String[] args) {
+        ArrayList<String> list = new ArrayList<String>();
+        ArrayList<Double> priceList = new ArrayList<Double>();
+        Scanner scan = new Scanner(System.in);
+
+        // Collect inputs
+        for (int j = 0; j < 5; j++) {
+            System.out.println("Enter a new Item:");
+            String item = scan.nextLine();
+            list.add(item);
+            //price
+            System.out.println("Enter the price of the new item:");
+            double itemPrice = scan.nextDouble();
+            priceList.add(itemPrice);
+            
+            scan.nextLine(); // Clear buffer
+        }
+        scan.close();
+
+        //funny command that lets the pricelist class actually use the data in the shoppinglist class
+        PriceList.displaySummary(list, priceList);
+    }
+}
+//price list class
+class PriceList {
+    public static void displaySummary(ArrayList<String> items, ArrayList<Double> prices) {
+        double totalPrice = 0.0;
+//adding up the newly made items into a summary
+        System.out.println(" Total Item Summary");
+        for (int i = 0; i < items.size(); i++) {
+            System.out.println((i + 1) + ". " + items.get(i) + " - $" + prices.get(i));
+            totalPrice += prices.get(i);
+        }
+
+        System.out.println("Total Items: " + items.size());
+        System.out.printf("Total Price: $%.2f%n", totalPrice);
+    }
+}
