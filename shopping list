@@ -21,11 +21,27 @@ public class ShoppingList {
             
             scan.nextLine(); // Clear buffer
         }
-        scan.close();
 
         //funny command that lets the pricelist class actually use the data in the shoppinglist class
         PriceList.displaySummary(list, priceList);
+
+        // Remove item directly without if-statements or try-catch blocks
+        System.out.println("\nEnter the item number to remove (1-5):");
+        int itemNum = scan.nextInt();
+
+        list.remove(itemNum - 1);
+        priceList.remove(itemNum - 1);
+
+        System.out.println("\nUpdated Summary:");
+        PriceList.displaySummary(list, priceList);
+
+        scan.close();
     }
+}
+// the class that allows inputted items to become part of the array list
+class Item {
+    private String name = "";
+    private double price = 0.0;
 }
 //price list class
 class PriceList {
