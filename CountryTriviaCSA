@@ -1,0 +1,243 @@
+import java.util.Scanner;
+
+public class CountryTriviaCSA {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+
+        // =====================================================================
+        // ALL 56 PROMPTS AND ANSWERS (READY TO RUN OR EDIT)
+        // Each item ends with "|" so the program can slice them apart.
+        // =====================================================================
+        String prompts = "Which city was Jose born in?|"
+                       + "Which country has the most pubs in the world?|"
+                       + "Which country has the most lakes in the world?|"
+                       + "Which country has the most time zones in the world?|"
+                       + "Which country has the most pyramids in the world?|"
+                       + "Which country drinks the most coffee per person?|"
+                       + "Which country is home to over 840 living languages - more than any other nation on Earth?|"
+                       + "Which country has 12 official languages, including Sign Language, Afrikaans, and Zulu?|"
+                       + "Which country is the only nation in South America where Portuguese is the official language?|"
+                       + "Which country is the only nation in South America where English is the official language?|"
+                       + "Which country is the only nation in Africa where Spanish is an official language?|"
+                       + "Which country's alphabet, Hangul, was intentionally invented by a king in the 1440s to boost literacy?|"
+                       + "Which country is home to Euskara, Europe's oldest living language unrelated to any other known tongue?|"
+                       + "Which country has four official languages: German, French, Italian, and Romansh?|"
+                       + "Which country's capital city has a ceremonial name that is 168 letters long?|"
+                       + "Which country is the only majority-French-speaking independent nation in the Caribbean?|"
+                       + "Which country contains the world's largest religious monument by land area, Angkor Wat?|"
+                       + "Which country has the world's largest Muslim population?|"
+                       + "Which country has the world's largest Hindu population?|"
+                       + "Which country is the only nation where 100% of its citizens are officially Roman Catholic?|"
+                       + "Which country is the only predominantly Roman Catholic nation in Asia?|"
+                       + "Which country has the world's highest percentage of Buddhists, at over 95% of its population?|"
+                       + "Which country is home to Borobudur, the single largest Buddhist temple structure in the world?|"
+                       + "Which country practices the indigenous religion Shinto alongside Buddhism, with over 80,000 shrines?|"
+                       + "Which country was the first in history to adopt Christianity as its state religion in 301 AD?|"
+                       + "Which country is the birthplace of Sikhism and home to the Golden Temple in Amritsar?|"
+                       + "Which country is completely surrounded by South Africa, making it the largest enclaved country?|"
+                       + "Which country borders both North Korea and Norway?|"
+                       + "Which European country's longest land border is actually with Brazil?|"
+                       + "Which country has the most islands in the world, with over 267,000 of them?|"
+                       + "Which country has no permanent rivers at all?|"
+                       + "Which country is the only one in the world whose national flag is not a rectangle or square?|"
+                       + "Which country is the flattest on Earth, averaging just 1.5 meters above sea level?|"
+                       + "Which island nation is the only country located in all four hemispheres?|"
+                       + "Which country has the most UNESCO World Heritage Sites in the world?|"
+                       + "Which European microstate is doubly landlocked, surrounded only by other landlocked countries?|"
+                       + "Which country has more sheep than people by a ratio of roughly 5 to 1?|"
+                       + "Which country has the most vending machines per capita in the world?|"
+                       + "Which country has the unicorn as its national animal (via Scotland)?|"
+                       + "Which country measures its success using Gross National Happiness instead of just GDP?|"
+                       + "Which country banned the sale of chewing gum in 1992 to keep its streets spotless?|"
+                       + "Which country has the most traffic roundabouts in the world, with over 40,000?|"
+                       + "Which country's citizens eat the most chocolate per capita in the world?|"
+                       + "Which country produces over half of the world's cork supply?|"
+                       + "Which Scandinavian country has a famous fishing village named with just the single letter A?|"
+                       + "Which country has the oldest continuously operating university in the world, founded in 859 AD?|"
+                       + "Which country has roughly 3 million saunas - more saunas than cars?|"
+                       + "Which country is the birthplace of the Olympic Games and democracy?|"
+                       + "Which country has the most active volcanoes in the world?|"
+                       + "Which country is home to the world's oldest continuously functioning parliament, founded in 930 AD?|"
+                       + "Which country has no mosquitoes at all?|"
+                       + "Which country is the only place on Earth where lemurs live in the wild?|"
+                       + "Which country is home to Mammoth Cave, the longest known cave system on Earth?|"
+                       + "Which country is the world's leading exporter of bananas?|"
+                       + "Which country has a burning natural gas crater known as the Door to Hell?|"
+                       + "Which country has more ancient pyramids than Egypt?|";
+
+        String answers = "Guadalajara|"
+                       + "United Kingdom|"
+                       + "Canada|"
+                       + "France|"
+                       + "Sudan|"
+                       + "Finland|"
+                       + "Papua New Guinea|"
+                       + "South Africa|"
+                       + "Brazil|"
+                       + "Guyana|"
+                       + "Equatorial Guinea|"
+                       + "South Korea|"
+                       + "Spain|"
+                       + "Switzerland|"
+                       + "Thailand|"
+                       + "Haiti|"
+                       + "Cambodia|"
+                       + "Indonesia|"
+                       + "India|"
+                       + "Vatican City|"
+                       + "Philippines|"
+                       + "Cambodia|"
+                       + "Indonesia|"
+                       + "Japan|"
+                       + "Armenia|"
+                       + "India|"
+                       + "Lesotho|"
+                       + "Russia|"
+                       + "France|"
+                       + "Sweden|"
+                       + "Saudi Arabia|"
+                       + "Nepal|"
+                       + "Maldives|"
+                       + "Kiribati|"
+                       + "Italy|"
+                       + "Liechtenstein|"
+                       + "New Zealand|"
+                       + "Japan|"
+                       + "United Kingdom|"
+                       + "Bhutan|"
+                       + "Singapore|"
+                       + "France|"
+                       + "Switzerland|"
+                       + "Portugal|"
+                       + "Norway|"
+                       + "Morocco|"
+                       + "Finland|"
+                       + "Greece|"
+                       + "Indonesia|"
+                       + "Iceland|"
+                       + "Iceland|"
+                       + "Madagascar|"
+                       + "United States|"
+                       + "Ecuador|"
+                       + "Turkmenistan|"
+                       + "Sudan|";
+        // =====================================================================
+
+        boolean keepPlaying = true;
+
+        System.out.println("=== STAT & PLACE TRIVIA ===");
+
+        // Unit 4: while loop for the main menu
+        while (keepPlaying) {
+            System.out.println("\n1. Play Game");
+            System.out.println("2. Add a New Prompt & Answer");
+            System.out.println("3. Quit");
+            System.out.print("Choose an option (1-3): ");
+            String choice = input.nextLine();
+
+            // Unit 3: if / else if / else statements
+            if (choice.equals("1")) {
+                playRound(input, prompts, answers);
+            } else if (choice.equals("2")) {
+                System.out.print("\nEnter the prompt: ");
+                String newPrompt = input.nextLine().trim();
+
+                System.out.print("Enter the matching answer: ");
+                String newAnswer = input.nextLine().trim();
+
+                // Unit 2: String concatenation
+                prompts = prompts + newPrompt + "|";
+                answers = answers + newAnswer + "|";
+
+                System.out.println("Added! Your new question is now in the game.");
+            } else if (choice.equals("3")) {
+                keepPlaying = false;
+                System.out.println("Thanks for playing!");
+            } else {
+                System.out.println("Please enter 1, 2, or 3.");
+            }
+        }
+    }
+
+    public static void playRound(Scanner input, String prompts, String answers) {
+        int score = 0;
+        int totalQuestions = 0;
+
+        // Keep slicing off one prompt and one answer at a time until none are left
+        while (prompts.indexOf("|") != -1) {
+            totalQuestions++;
+
+            // Unit 2: Using indexOf() and substring() to extract the next prompt & answer
+            int promptCut = prompts.indexOf("|");
+            String currentPrompt = prompts.substring(0, promptCut);
+            prompts = prompts.substring(promptCut + 1);
+
+            int answerCut = answers.indexOf("|");
+            String currentAnswer = answers.substring(0, answerCut);
+            answers = answers.substring(answerCut + 1);
+
+            System.out.println("\nQuestion " + totalQuestions + ": " + currentPrompt);
+            boolean guessedRight = false;
+            int tries = 0;
+
+            // Give the player up to 3 tries per question
+            while (tries < 3 && !guessedRight) {
+                System.out.print("Your guess (or type 'hint' / 'quit'): ");
+                String guess = input.nextLine().trim();
+
+                if (guess.equalsIgnoreCase("quit")) {
+                    System.out.println("\nEnding round early...");
+                    System.out.println("Score so far: " + score + " out of " + (totalQuestions - 1));
+                    return;
+                } else if (guess.equalsIgnoreCase("hint")) {
+                    // Unit 2: substring(0, 1) gets the first letter, length() counts characters
+                    String firstLetter = currentAnswer.substring(0, 1);
+                    System.out.println("Hint: Starts with '" + firstLetter + "' and is "
+                                     + currentAnswer.length() + " characters long.");
+                } else if (isMatch(guess, currentAnswer)) {
+                    System.out.println("Correct! The answer is " + currentAnswer + ".");
+                    score++;
+                    guessedRight = true;
+                } else {
+                    tries++;
+                    if (tries < 3) {
+                        System.out.println("Wrong! Tries left: " + (3 - tries));
+                    } else {
+                        System.out.println("Out of tries! The correct answer was " + currentAnswer + ".");
+                    }
+                }
+            }
+        }
+
+        System.out.println("\n=== GAME OVER ===");
+        System.out.println("You got " + score + " out of " + totalQuestions + " right!");
+    }
+
+    // Helper method using Unit 2 & 3 concepts to accept common abbreviations
+    public static boolean isMatch(String guess, String answer) {
+        if (guess.equalsIgnoreCase(answer)) {
+            return true;
+        }
+        if (answer.equalsIgnoreCase("United Kingdom") &&
+           (guess.equalsIgnoreCase("UK") || guess.equalsIgnoreCase("Great Britain") || guess.equalsIgnoreCase("England") || guess.equalsIgnoreCase("Scotland"))) {
+            return true;
+        }
+        if (answer.equalsIgnoreCase("United States") &&
+           (guess.equalsIgnoreCase("USA") || guess.equalsIgnoreCase("US") || guess.equalsIgnoreCase("America"))) {
+            return true;
+        }
+        if (answer.equalsIgnoreCase("Vatican City") &&
+           (guess.equalsIgnoreCase("Vatican") || guess.equalsIgnoreCase("The Vatican") || guess.equalsIgnoreCase("Holy See"))) {
+            return true;
+        }
+        if (answer.equalsIgnoreCase("South Korea") &&
+           (guess.equalsIgnoreCase("Korea") || guess.equalsIgnoreCase("Republic of Korea"))) {
+            return true;
+        }
+        if (answer.equalsIgnoreCase("Philippines") &&
+           (guess.equalsIgnoreCase("The Philippines"))) {
+            return true;
+        }
+        return false;
+    }
+}
