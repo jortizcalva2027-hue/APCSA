@@ -1,13 +1,30 @@
+/*
+ * License and template headers generated automatically by NetBeans IDE.
+ */
+package countrytriviacsa;
+
+/**
+ * CountryTriviaCSA - A console-based trivia game 
+ *  * 
+ * @author jortizcalva2027
+ */
+
+// Import the Scanner class from the java.util package so the program can read keyboard input
 import java.util.Scanner;
 
 public class CountryTriviaCSA {
+
+    // The main method is the entry point where the Java Virtual Machine (JVM) starts executing the program
     public static void main(String[] args) {
+        
+        // Instantiate a Scanner object attached to System.in (standard keyboard input)
         Scanner input = new Scanner(System.in);
 
-        // =====================================================================
-        // ALL 56 PROMPTS AND ANSWERS (READY TO RUN OR EDIT)
-        // Each item ends with "|" so the program can slice them apart.
-        // =====================================================================
+        // TRIVIA DATA STORAGE (AP CSA Unit 2: String Objects)
+        // Instead of arrays or ArrayLists (Units 6-7), all 56 questions and answers
+        // are stored in two single delimited Strings. The "|" (pipe) character acts 
+        // as a boundary marker so the program can slice individual items out later.
+        
         String prompts = "Which city was Jose born in?|"
                        + "Which country has the most pubs in the world?|"
                        + "Which country has the most lakes in the world?|"
@@ -46,7 +63,7 @@ public class CountryTriviaCSA {
                        + "Which European microstate is doubly landlocked, surrounded only by other landlocked countries?|"
                        + "Which country has more sheep than people by a ratio of roughly 5 to 1?|"
                        + "Which country has the most vending machines per capita in the world?|"
-                       + "Which country has the unicorn as its national animal (via Scotland)?|"
+                       + "Which Constituent Country has the unicorn as its national animal ?|"
                        + "Which country measures its success using Gross National Happiness instead of just GDP?|"
                        + "Which country banned the sale of chewing gum in 1992 to keep its streets spotless?|"
                        + "Which country has the most traffic roundabouts in the world, with over 40,000?|"
@@ -65,6 +82,7 @@ public class CountryTriviaCSA {
                        + "Which country has a burning natural gas crater known as the Door to Hell?|"
                        + "Which country has more ancient pyramids than Egypt?|";
 
+        // Parallel delimited String: the Nth answer corresponds directly to the Nth prompt above
         String answers = "Guadalajara|"
                        + "United Kingdom|"
                        + "Canada|"
@@ -103,7 +121,7 @@ public class CountryTriviaCSA {
                        + "Liechtenstein|"
                        + "New Zealand|"
                        + "Japan|"
-                       + "United Kingdom|"
+                       + "Scotland|"
                        + "Bhutan|"
                        + "Singapore|"
                        + "France|"
@@ -121,103 +139,127 @@ public class CountryTriviaCSA {
                        + "Ecuador|"
                        + "Turkmenistan|"
                        + "Sudan|";
-        // =====================================================================
 
+        // Boolean flag variable (Unit 1) that controls whether the main menu stays active
         boolean keepPlaying = true;
 
         System.out.println("=== STAT & PLACE TRIVIA ===");
 
-        // Unit 4: while loop for the main menu
+        // Unit 4: Indefinite while loop keeps displaying the menu until the user chooses to quit
         while (keepPlaying) {
             System.out.println("\n1. Play Game");
-            System.out.println("2. Add a New Prompt & Answer");
-            System.out.println("3. Quit");
-            System.out.print("Choose an option (1-3): ");
+            System.out.println("2. Quit");
+            System.out.print("Choose an option (1-2): ");
+            
+            // Read the user's entire line of text input as a String (avoids newline buffer bugs from nextInt())
             String choice = input.nextLine();
 
-            // Unit 3: if / else if / else statements
+            // Unit 3: Conditional branching using .equals() (never use == to compare String contents!)
             if (choice.equals("1")) {
-                playRound(input, prompts, answers);
+                // Call playRound() and capture its boolean return value (true = survived/won, false = lost)
+                boolean survived = playRound(input, prompts, answers);
+                
+                if (!survived) {
+                    // If the player ran out of tries, 'return' exits main() and terminates the program immediately
+                    return;
+                }
             } else if (choice.equals("2")) {
-                System.out.print("\nEnter the prompt: ");
-                String newPrompt = input.nextLine().trim();
-
-                System.out.print("Enter the matching answer: ");
-                String newAnswer = input.nextLine().trim();
-
-                // Unit 2: String concatenation
-                prompts = prompts + newPrompt + "|";
-                answers = answers + newAnswer + "|";
-
-                System.out.println("Added! Your new question is now in the game.");
-            } else if (choice.equals("3")) {
+                // Flip the loop control variable to false so the while loop terminates cleanly
                 keepPlaying = false;
                 System.out.println("Thanks for playing!");
             } else {
-                System.out.println("Please enter 1, 2, or 3.");
+                // Catch-all for invalid menu entries
+                System.out.println("Please enter 1 or 2.");
             }
         }
     }
 
-    public static void playRound(Scanner input, String prompts, String answers) {
-        int score = 0;
-        int totalQuestions = 0;
+    /**
+     * Manages a full session of trivia questions until all questions are answered,
+     * the user types 'quit', or the user fails 3 attempts on a single question.
+     * 
+     * @param input   The shared Scanner object for reading user guesses
+     * @param prompts The master String of pipe-delimited trivia questions
+     * @param answers The master String of pipe-delimited trivia answers
+     * @return        true if the player won or quit voluntarily; false if the player lost
+     */
+    public static boolean playRound(Scanner input, String prompts, String answers) {
+        int score = 0;          // Tracks how many questions the user answered correctly
+        int totalQuestions = 0; // Tracks the current question number
 
-        // Keep slicing off one prompt and one answer at a time until none are left
-        while (prompts.indexOf("|") != -1) {
+        // Instantiate a new QuestionRandomizer object. Passing 'prompts' and 'answers' creates
+        // a fresh copy inside the object so the master Strings in main() remain intact for future rounds.
+        QuestionRandomizer randomizer = new QuestionRandomizer(prompts, answers);
+
+        // Outer while loop: continues as long as at least one "|" remains in the question pool
+        while (randomizer.hasQuestionsLeft()) {
             totalQuestions++;
 
-            // Unit 2: Using indexOf() and substring() to extract the next prompt & answer
-            int promptCut = prompts.indexOf("|");
-            String currentPrompt = prompts.substring(0, promptCut);
-            prompts = prompts.substring(promptCut + 1);
-
-            int answerCut = answers.indexOf("|");
-            String currentAnswer = answers.substring(0, answerCut);
-            answers = answers.substring(answerCut + 1);
+            // Select a random question/answer pair and remove it from the pool so it cannot repeat
+            randomizer.pickNextRandom();
+            String currentPrompt = randomizer.getCurrentPrompt();
+            String currentAnswer = randomizer.getCurrentAnswer();
 
             System.out.println("\nQuestion " + totalQuestions + ": " + currentPrompt);
-            boolean guessedRight = false;
-            int tries = 0;
+            
+            boolean guessedRight = false; // Tracks whether the user solved the current question
+            int tries = 0;                // Counts failed attempts on the current question (max 3)
 
-            // Give the player up to 3 tries per question
+            // Inner while loop: uses a compound boolean expression (&&) to allow up to 3 attempts
             while (tries < 3 && !guessedRight) {
-                System.out.print("Your guess (or type 'hint' / 'quit'): ");
+                System.out.print("Your guess (or type 'quit'): ");
+                // .trim() removes accidental leading or trailing spaces typed by the user
                 String guess = input.nextLine().trim();
 
+                // Check if the user wants to exit the round early (case-insensitive)
                 if (guess.equalsIgnoreCase("quit")) {
                     System.out.println("\nEnding round early...");
+                    // Subtract 1 from totalQuestions because the current question was not completed
                     System.out.println("Score so far: " + score + " out of " + (totalQuestions - 1));
-                    return;
-                } else if (guess.equalsIgnoreCase("hint")) {
-                    // Unit 2: substring(0, 1) gets the first letter, length() counts characters
-                    String firstLetter = currentAnswer.substring(0, 1);
-                    System.out.println("Hint: Starts with '" + firstLetter + "' and is "
-                                     + currentAnswer.length() + " characters long.");
-                } else if (isMatch(guess, currentAnswer)) {
+                    return true; // Return to main menu without triggering a Game Over
+                } 
+                // Validate the user's guess against the official answer and accepted aliases
+                else if (isMatch(guess, currentAnswer)) {
                     System.out.println("Correct! The answer is " + currentAnswer + ".");
-                    score++;
-                    guessedRight = true;
-                } else {
-                    tries++;
+                    score++;             // Increment score
+                    guessedRight = true; // Exit the inner guessing loop and move to the next question
+                } 
+                // Handle an incorrect guess
+                else {
+                    tries++; // Increment failed attempts
                     if (tries < 3) {
                         System.out.println("Wrong! Tries left: " + (3 - tries));
                     } else {
-                        System.out.println("Out of tries! The correct answer was " + currentAnswer + ".");
+                        // Player used all 3 tries: display Game Over and signal main() to terminate
+                        System.out.println("\nOut of tries! The correct answer was " + currentAnswer + ".");
+                        System.out.println("=== YOU LOSE! GAME OVER ===");
+                        System.out.println("Final Score: " + score);
+                        return false; 
                     }
                 }
             }
         }
 
-        System.out.println("\n=== GAME OVER ===");
-        System.out.println("You got " + score + " out of " + totalQuestions + " right!");
+        // If the outer while loop finishes naturally, the player answered every single question
+        System.out.println("\n=== YOU WIN! ALL QUESTIONS CLEARED! ===");
+        System.out.println("Final Score: " + score + " out of " + totalQuestions + "!");
+        return true;
     }
 
-    // Helper method using Unit 2 & 3 concepts to accept common abbreviations
+    /**
+     * Compares the player's guess to the official answer, ignoring capitalization
+     * and accepting common abbreviations or alternative country names.
+     * 
+     * @param guess  The trimmed String entered by the user
+     * @param answer The official answer String from the answer pool
+     * @return       true if the guess is valid; false otherwise
+     */
     public static boolean isMatch(String guess, String answer) {
+        // Direct case-insensitive match (e.g., "canada" matches "Canada")
         if (guess.equalsIgnoreCase(answer)) {
             return true;
         }
+        // Check common aliases using compound boolean logic (&& and ||)
         if (answer.equalsIgnoreCase("United Kingdom") &&
            (guess.equalsIgnoreCase("UK") || guess.equalsIgnoreCase("Great Britain") || guess.equalsIgnoreCase("England") || guess.equalsIgnoreCase("Scotland"))) {
             return true;
@@ -238,6 +280,104 @@ public class CountryTriviaCSA {
            (guess.equalsIgnoreCase("The Philippines"))) {
             return true;
         }
+        // If none of the conditions matched, the guess is incorrect
         return false;
+    }
+}
+
+// RANDOMIZER CLASS (Demonstrates AP CSA Unit 2 & Unit 5 Encapsulation)
+// Manages state (remaining questions) and behavior (picking without replacement).
+
+class QuestionRandomizer {
+    // Private instance variables (encapsulation) holding the shrinking pools and active pair
+    private String remainingPrompts;
+    private String remainingAnswers;
+    private String currentPrompt;
+    private String currentAnswer;
+
+    // Constructor: initializes instance variables when 'new QuestionRandomizer(...)' is called
+    public QuestionRandomizer(String prompts, String answers) {
+        this.remainingPrompts = prompts;
+        this.remainingAnswers = answers;
+        this.currentPrompt = "";
+        this.currentAnswer = "";
+    }
+
+    // Returns true if indexOf("|") finds a delimiter (returns -1 when the String is empty)
+    public boolean hasQuestionsLeft() {
+        return remainingPrompts.indexOf("|") != -1;
+    }
+
+    // Accessor (getter) method for the currently selected trivia question
+    public String getCurrentPrompt() {
+        return currentPrompt;
+    }
+
+    // Accessor (getter) method for the currently selected trivia answer
+    public String getCurrentAnswer() {
+        return currentAnswer;
+    }
+
+    /**
+     * Helper method that traverses remainingPrompts character-by-character
+     * and counts how many "|" delimiters exist, which equals the number of questions left.
+     */
+    private int countRemaining() {
+        int count = 0;
+        // Standard String traversal loop (AP CSA Unit 4)
+        for (int i = 0; i < remainingPrompts.length(); i++) {
+            // Extract a 1-character substring at index i and check if it equals "|"
+            if (remainingPrompts.substring(i, i + 1).equals("|")) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    /**
+     * Picks a random question index, extracts that question and its matching answer
+     * into currentPrompt/currentAnswer, and rebuilds the remaining pools without that pair.
+     */
+    public void pickNextRandom() {
+        int total = countRemaining();
+        
+        // AP CSA Unit 2 formula for generating a random integer from 0 to (total - 1):
+        // Math.random() returns a double in [0.0, 1.0), multiplying scales it to [0.0, total),
+        // and casting to (int) truncates the decimal portion.
+        int targetIndex = (int) (Math.random() * total);
+
+        // Temporary accumulator Strings to hold all questions/answers EXCEPT the chosen one
+        String newPromptsPool = "";
+        String newAnswersPool = "";
+
+        // Iterate through every remaining question/answer pair in the pool
+        for (int i = 0; i < total; i++) {
+            // Find the position of the next "|" delimiter in remainingPrompts
+            int pCut = remainingPrompts.indexOf("|");
+            // Slice out the question text before the "|"
+            String p = remainingPrompts.substring(0, pCut);
+            // Shorten remainingPrompts so it starts immediately after the "|"
+            remainingPrompts = remainingPrompts.substring(pCut + 1);
+
+            // Repeat the exact same slicing process in parallel for remainingAnswers
+            int aCut = remainingAnswers.indexOf("|");
+            String a = remainingAnswers.substring(0, aCut);
+            remainingAnswers = remainingAnswers.substring(aCut + 1);
+
+            if (i == targetIndex) {
+                // This is our randomly chosen item: save it as the active question/answer
+                // and do NOT add it back into the new pools (prevents repeats)
+                currentPrompt = p;
+                currentAnswer = a;
+            } else {
+                // Not the chosen item: append it (along with its "|" delimiter) back into the pool
+                newPromptsPool = newPromptsPool + p + "|";
+                newAnswersPool = newAnswersPool + a + "|";
+            }
+        }
+
+        // Replace the depleted pool Strings with the newly rebuilt pools
+        remainingPrompts = newPromptsPool;
+        remainingAnswers = newAnswersPool;
     }
 }
